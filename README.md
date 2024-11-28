@@ -36,3 +36,34 @@ sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
 
 - Kết quả của chương trình:
 Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+In JS we trust - The best way to learn is by building/coding and teaching. I create the challenges to help my friends learn JavaScript and in return it helps me embrace the language in much deeper level. Feel free to clone, fork and pull.
+
+---
+
+###### 1. What's the output?
+
+```javascript
+function a(x) {
+  x++;
+  return function () {
+    console.log(++x);
+  };
+}
+
+a(1)();
+a(1)();
+a(1)();
+
+let x = a(1);
+x();
+x();
+x();
+```
+
+- A: `1, 2, 3` and `1, 2, 3`
+- B: `3, 3, 3` and `3, 4, 5`
+- C: `3, 3, 3` and `1, 2, 3`
+- D: `1, 2, 3` and `3, 3, 3`
+
+<details><summary><b>Answer</b></summary>
+<p>
