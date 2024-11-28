@@ -1,4 +1,6 @@
 ##### Quiz-code
+- In JS we trust - The best way to learn is by building/coding and teaching. I create the challenges to help my friends learn JavaScript and in return it helps me embrace the language in much deeper level. Feel free to clone, fork and pull.
+
 ###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
 ```javascript
 function sumArray(code) { 
@@ -43,7 +45,6 @@ sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
 - Kết quả của chương trình:
   
 Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
-In JS we trust - The best way to learn is by building/coding and teaching. I create the challenges to help my friends learn JavaScript and in return it helps me embrace the language in much deeper level. Feel free to clone, fork and pull.
 
 </p>
 </details>
