@@ -14,6 +14,7 @@ console.log(sumArray([1,2,3,4]));
 ```
 
 ###### Kết quả:
+
 - A: `5` 
 - B: `10`
 - C: `5` and `undefined`
@@ -22,7 +23,7 @@ console.log(sumArray([1,2,3,4]));
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: B 
+#### Answer: C 
 
 Giai thich :
 - Vòng lặp for:
@@ -45,30 +46,3 @@ In JS we trust - The best way to learn is by building/coding and teaching. I cre
 </details>
 
 ---
-###### 1. What's the output?
-
-```javascript
-function a(x) {
-  x++;
-  return function () {
-    console.log(++x);
-  };
-}
-
-a(1)();
-a(1)();
-a(1)();
-
-let x = a(1);
-x();
-x();
-x();
-```
-
-- A: `1, 2, 3` and `1, 2, 3`
-- B: `3, 3, 3` and `3, 4, 5`
-- C: `3, 3, 3` and `1, 2, 3`
-- D: `1, 2, 3` and `3, 3, 3`
-
-<details><summary><b>Answer</b></summary>
-<p>
