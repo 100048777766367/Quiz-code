@@ -1,6 +1,6 @@
-# Quiz-code
-1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
-   
+##### Quiz-code
+###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+```javascript
 function sumArray(code) { 
     let sum = 5; 
     for (let i = 5; i < code.length; i++) { 
@@ -11,15 +11,16 @@ function sumArray(code) {
 }
 
 console.log(sumArray([1,2,3,4])); 
+```
 
-Kết quả:
-A. 5
-B. 10
-C. 5 và undefined
-D. undefined
+###### Kết quả:
+- A: `5` 
+- B: `10`
+- C: `5` and `undefined`
+- D: `undefined`
 
-
-
+<details><summary><b>Answer</b></summary>
+<p>
 DAP AN: C 
 Giai thich :
 - Vòng lặp for:
