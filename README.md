@@ -2072,426 +2072,369 @@ Giai thich :
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 63. Tìm số xuất hiện một lần trong mảng (Sử dụng XOR - O(n), O(1) không gian)
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function findUnique(arr) {
+    return arr.reduce((a, b) => a ^ b, 0);
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(findUnique([1, 2, 3, 2, 1]));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `3` 
+- B: `2`
+- C: `1`
+- D: `0`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
-Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
+Giải thích:
 
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- XOR (^) của một số với chính nó là 0, và XOR với 0 giữ nguyên số đó.
+(1 ^ 2 ^ 3 ^ 2 ^ 1) = 3 (các số trùng nhau bị triệt tiêu).
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 64. Tìm phần tử "Majority" (Xuất hiện > n/2 lần)
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
+function majorityElement(arr) {
+    let count = 0, candidate = null;
+    for (let num of arr) {
+        if (count === 0) candidate = num;
+        count += (num === candidate) ? 1 : -1;
     }
-    return sum;
+    return candidate;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(majorityElement([3, 3, 4, 2, 3, 3, 3]));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
+- A: `3` 
+- B: `4`
+- C: `2`
 - D: `undefined`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
-Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
+Giải thích:
 
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
+- Thuật toán Boyer-Moore Voting Algorithm tìm số xuất hiện nhiều nhất (3).
+</p>
+</details>
+
+---
+---
+###### 65. Đếm số đảo ngược trong mảng (Inversion Count - O(n log n))
 ```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
+function countInversions(arr) {
+    let count = 0;
+    function mergeSort(arr) {
+        if (arr.length < 2) return arr;
+        let mid = Math.floor(arr.length / 2);
+        let left = mergeSort(arr.slice(0, mid));
+        let right = mergeSort(arr.slice(mid));
+        return merge(left, right);
+    }
+    function merge(left, right) {
+        let result = [], i = 0, j = 0;
+        while (i < left.length && j < right.length) {
+            if (left[i] <= right[j]) result.push(left[i++]);
+            else {
+                result.push(right[j++]);
+                count += left.length - i;
+            }
+        }
+        return [...result, ...left.slice(i), ...right.slice(j)];
+    }
+    mergeSort(arr);
+    return count;
+}
+
+console.log(countInversions([2, 4, 1, 3, 5]));
+
 ```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+
+###### Kết quả:
+
+- A: `3` 
+- B: `2`
+- C: `4`
+- D: `5`
+
+<details><summary><b>Answer</b></summary>
+<p>
+    
+#### Answer: A
+
+Giải thích:
+
+- Các cặp đảo ngược (2,1), (4,1), (4,3) => 3.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 66. Tìm dãy con liên tiếp có tổng lớn nhất (Kadane's Algorithm - O(n))
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
+function maxSubArray(arr) {
+    let maxSum = arr[0], currentSum = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        currentSum = Math.max(arr[i], currentSum + arr[i]);
+        maxSum = Math.max(maxSum, currentSum);
     }
-    return sum;
+    return maxSum;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `6` 
+- B: `4`
+- C: `3`
+- D: `1`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- Dãy [4, -1, 2, 1] có tổng lớn nhất là 6.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 67. Tìm đường đi ngắn nhất trong đồ thị có trọng số (Dijkstra’s Algorithm)
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
+function dijkstra(graph, start) {
+    let distances = {}, visited = new Set();
+    for (let node in graph) distances[node] = Infinity;
+    distances[start] = 0;
+    while (visited.size < Object.keys(graph).length) {
+        let minNode = Object.keys(distances).filter(n => !visited.has(n)).reduce((a, b) => distances[a] < distances[b] ? a : b);
+        visited.add(minNode);
+        for (let neighbor in graph[minNode]) {
+            let newDist = distances[minNode] + graph[minNode][neighbor];
+            if (newDist < distances[neighbor]) distances[neighbor] = newDist;
+        }
     }
-    return sum;
+    return distances;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(dijkstra({
+    A: { B: 4, C: 2 },
+    B: { A: 4, C: 5, D: 10 },
+    C: { A: 2, B: 5, D: 3 },
+    D: { B: 10, C: 3 }
+}, "A"));
+ 
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `{ A: 0, B: 4, C: 2, D: 5 }` 
+- B: `{ A: 0, B: 5, C: 2, D: 8 }`
+- C: `{ A: 0, B: 3, C: 2, D: 6 }`
+- D: `{ A: 0, B: 4, C: 2, D: 6 }`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A
 
-Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
+Giải thích:
 
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- Khoảng cách ngắn nhất từ A:
+- A → C (2),
+- C → B (2 + 5 = 4),
+- C → D (2 + 3 = 5).
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 68. Kiểm tra một chuỗi có thể trở thành palindrome không? (O(n))
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function canBePalindrome(s) {
+    let freq = {};
+    for (let char of s) freq[char] = (freq[char] || 0) + 1;
+    return Object.values(freq).filter(x => x % 2 !== 0).length <= 1;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(canBePalindrome("racecar"));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `true` 
+- B: `false`
+- C: `undefined`
+- D: `null`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
 
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- "racecar" có thể đảo lại thành chính nó (chỉ có 1 ký tự lẻ "e").
+- Chỉ chuỗi có tối đa 1 ký tự xuất hiện lẻ lần có thể thành palindrome.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 69.  Tìm "kth" phần tử nhỏ nhất trong mảng (Quickselect - O(n))
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function quickSelect(arr, k) {
+    if (arr.length === 1) return arr[0];
+    let pivot = arr[arr.length - 1];
+    let left = arr.filter(x => x < pivot);
+    let right = arr.filter(x => x > pivot);
+    if (k <= left.length) return quickSelect(left, k);
+    if (k > arr.length - right.length) return quickSelect(right, k - (arr.length - right.length));
+    return pivot;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(quickSelect([7, 10, 4, 3, 20, 15], 3));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
+- A: `7` 
 - B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- C: `4`
+- D: `15`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
+- Mảng sau khi sắp xếp: [3, 4, 7, 10, 15, 20].
 
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- Phần tử thứ 3 nhỏ nhất là 7.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 70. Tìm dãy con tăng dài nhất (LIS - O(n log n))
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
+function longestIncreasingSubsequence(arr) {
+    let dp = [];
+    for (let num of arr) {
+        let idx = dp.findIndex(x => x >= num);
+        if (idx === -1) dp.push(num);
+        else dp[idx] = num;
     }
-    return sum;
+    return dp.length;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(longestIncreasingSubsequence([10, 9, 2, 5, 3, 7, 101, 18]));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `4` 
+- B: `5`
+- C: `6`
+- D: `7`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- Dãy con tăng dài nhất: [2, 3, 7, 18].
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 71. Đếm số đường đi trong lưới NxM (Dynamic Programming - O(N*M))
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function uniquePaths(n, m) {
+    let dp = Array(n).fill(0).map(() => Array(m).fill(1));
+    for (let i = 1; i < n; i++)
+        for (let j = 1; j < m; j++)
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+    return dp[n - 1][m - 1];
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(uniquePaths(3, 3));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `6` 
+- B: `3`
+- C: `9`
+- D: `12`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- Ma trận 3x3 có 6 cách đi từ (0,0) đến (2,2).
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 72. Tìm số đảo ngược nhưng giữ dấu
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function reverseNumber(n) {
+    let sign = n < 0 ? -1 : 1;
+    let rev = parseInt(n.toString().split("").reverse().join("")) * sign;
+    return rev;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(reverseNumber(-123));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `-321` 
+- B: `321`
+- C: `-231`
+- D: `null`
 
 <details><summary><b>Answer</b></summary>
 <p>
@@ -2499,773 +2442,456 @@ console.log(sumArray([1,2,3,4]));
 #### Answer: C 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- -123 đảo thành -321.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 73. Kiểm tra hai chuỗi có cùng ký tự (Anagram - O(n))
+
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function areAnagrams(str1, str2) {
+    return str1.split("").sort().join("") === str2.split("").sort().join("");
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(areAnagrams("listen", "silent"));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `true` 
+- B: `false`
+- C: `undefined`
+- D: `null`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- "listen" và "silent" có cùng ký tự nhưng thứ tự khác nhau.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 74. Xóa phần tử trùng lặp trong mảng nhưng giữ thứ tự
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function removeDuplicates(arr) {
+    return arr.filter((x, i) => arr.indexOf(x) === i);
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(removeDuplicates([1, 2, 2, 3, 4, 4, 5]));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `[1, 2, 3, 4, 5]` 
+- B: `[1, 2, 2, 3, 4, 4, 5]`
+- C: `[5, 4, 3, 2, 1]`
+- D: `Error`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- filter() giữ lại phần tử đầu tiên của mỗi số duy nhất.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 75. Kiểm tra chuỗi có chứa số
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function hasNumber(str) {
+    return /\d/.test(str);
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(hasNumber("hello123"));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `true` 
+- B: `false`
+- C: `undefined`
+- D: `null`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- Biểu thức /\d/ kiểm tra xem chuỗi có chứa số (0-9) hay không.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 76. Đảo ngược từng từ trong chuỗi
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function reverseWords(str) {
+    return str.split(" ").map(word => word.split("").reverse().join("")).join(" ");
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(reverseWords("hello world"));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `"olleh dlrow"` 
+- B: `"world hello"`
+- C: `"hello world"`
+- D: `"dlrow olleh"`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- hello → olleh, world → dlrow.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 77. Tính tổng các số trong chuỗi
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function sumNumbers(str) {
+    return (str.match(/\d+/g) || []).map(Number).reduce((a, b) => a + b, 0);
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(sumNumbers("abc12def34ghi56"));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `102` 
+- B: `12`
+- C: `NaN`
+- D: `10234`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- 12 + 34 + 56 = 102.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 1. Tìm số lớn nhất có thể tạo từ các số trong mảng
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function largestNumber(arr) {
+    return arr.map(String).sort((a, b) => (b + a) - (a + b)).join("").replace(/^0+/, "0");
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(largestNumber([3, 30, 34, 5, 9]));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `"9534330"` 
+- B: `"953430"`
+- C: `"343095"`
+- D: `"303495"`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
 Giai thich :
-- Vòng lặp for:
+- Dãy số sắp xếp theo quy tắc: "9" + "5", "5" + "34", "34" + "3", "3" + "30".
   
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
+</p>
+</details>
 
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
+---
+---
+###### 1.  Kiểm tra hai chuỗi có cùng ký tự nhưng khác thứ tự (Anagram - O(n))
 ```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
+function isAnagram(str1, str2) {
+    if (str1.length !== str2.length) return false;
+    let count = {};
+    for (let char of str1) count[char] = (count[char] || 0) + 1;
+    for (let char of str2) if (!count[char]) return false; else count[char]--;
+    return true;
+}
+
+console.log(isAnagram("listen", "silent"));
+
 ```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+
+###### Kết quả:
+
+- A: `true` 
+- B: `false`
+- C: `undefined`
+- D: `null`
+
+<details><summary><b>Answer</b></summary>
+<p>
+    
+#### Answer: A
+
+Giai thich :
+- "listen" và "silent" có cùng ký tự nhưng thứ tự khác nhau.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 1. Tìm tất cả các dãy con có tổng bằng k
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
+function subarraySum(arr, k) {
+    let count = 0, sum = 0, map = { 0: 1 };
+    for (let num of arr) {
+        sum += num;
+        if (map[sum - k]) count += map[sum - k];
+        map[sum] = (map[sum] || 0) + 1;
     }
-    return sum;
+    return count;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(subarraySum([1, 1, 1], 2));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `2` 
+- B: `3`
+- C: `4`
+- D: `5`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: B 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
 
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- Dãy con [1,1] xuất hiện 2 lần với tổng 2.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 1. Tìm phần tử lặp đầu tiên trong mảng
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
+function firstDuplicate(arr) {
+    let seen = new Set();
+    for (let num of arr) {
+        if (seen.has(num)) return num;
+        seen.add(num);
     }
-    return sum;
+    return -1;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(firstDuplicate([2, 1, 3, 5, 3, 2]));
+
+```
+
+###### Kết quả:
+
+- A: `3` 
+- B: `2`
+- C: `1`
+- D: `-1`
+
+<details><summary><b>Answer</b></summary>
+<p>
+    
+#### Answer: A 
+
+Giai thich :
+- 3 xuất hiện trước 2 khi duyệt từ trái sang phải.
+</p>
+</details>
+
+---
+---
+###### 1.  Tìm "kth" phần tử lớn nhất trong mảng
+```javascript
+function kthLargest(arr, k) {
+    return arr.sort((a, b) => b - a)[k - 1];
+}
+
+console.log(kthLargest([3, 2, 1, 5, 6, 4], 2));
+ 
 ```
 
 ###### Kết quả:
 
 - A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- B: `6`
+- C: `4`
+- D: `3`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- Mảng sau khi sắp xếp giảm dần: [6, 5, 4, 3, 2, 1].
+- Phần tử lớn thứ 2 là 5.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 1. Tìm số xuất hiện lẻ lần (XOR - O(n))
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function findOdd(arr) {
+    return arr.reduce((a, b) => a ^ b, 0);
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(findOdd([1, 2, 3, 2, 3, 1, 3]));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `3` 
+- B: `1`
+- C: `2`
+- D: `0`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A
 
 Giai thich :
-- Vòng lặp for:
+- XOR giữa các số giống nhau là 0, nên chỉ số xuất hiện lẻ lần còn lại.
   
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
+</p>
+</details>
 
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
+---
+---
+###### 1. Tính số đường đi trong lưới NxM
 ```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
+function uniquePaths(n, m) {
+    let dp = Array(n).fill(0).map(() => Array(m).fill(1));
+    for (let i = 1; i < n; i++)
+        for (let j = 1; j < m; j++)
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+    return dp[n - 1][m - 1];
+}
+
+console.log(uniquePaths(3, 3));
+
 ```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+
+###### Kết quả:
+
+- A: `6` 
+- B: `3`
+- C: `9`
+- D: `12`
+
+<details><summary><b>Answer</b></summary>
+<p>
+    
+#### Answer: A
+
+Giai thich :
+- Ma trận 3x3 có 6 cách đi từ (0,0) đến (2,2).
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 1. Đảo ngược từng từ trong chuỗi
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
+function reverseWords(str) {
+    return str.split(" ").map(word => word.split("").reverse().join("")).join(" ");
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(reverseWords("hello world"));
+
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
+- A: `"olleh dlrow"` 
+- B: `"world hello"`
+- C: `"hello world"`
+- D: "dlrow olleh"`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- hello → olleh, world → dlrow.
 
 </p>
 </details>
 
 ---
 ---
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
+###### 1. Tìm phần tử có tần suất cao nhất
 ```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
+function mostFrequent(arr) {
+    let map = {}, maxCount = 0, maxNum;
+    for (let num of arr) {
+        map[num] = (map[num] || 0) + 1;
+        if (map[num] > maxCount) {
+            maxCount = map[num];
+            maxNum = num;
+        }
     }
-    return sum;
+    return maxNum;
 }
 
-console.log(sumArray([1,2,3,4])); 
+console.log(mostFrequent([1, 3, 3, 2, 1, 3]));
+ 
 ```
 
 ###### Kết quả:
 
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
+- A: `3` 
+- B: `1`
+- C: `2`
 - D: `undefined`
 
 <details><summary><b>Answer</b></summary>
 <p>
     
-#### Answer: C 
+#### Answer: A 
 
 Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
-
-</p>
-</details>
-
----
----
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
-```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
-}
-
-console.log(sumArray([1,2,3,4])); 
-```
-
-###### Kết quả:
-
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
-
-<details><summary><b>Answer</b></summary>
-<p>
-    
-#### Answer: C 
-
-Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
-
-</p>
-</details>
-
----
----
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
-```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
-}
-
-console.log(sumArray([1,2,3,4])); 
-```
-
-###### Kết quả:
-
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
-
-<details><summary><b>Answer</b></summary>
-<p>
-    
-#### Answer: C 
-
-Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
-
-</p>
-</details>
-
----
----
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
-```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
-}
-
-console.log(sumArray([1,2,3,4])); 
-```
-
-###### Kết quả:
-
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
-
-<details><summary><b>Answer</b></summary>
-<p>
-    
-#### Answer: C 
-
-Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
-
-</p>
-</details>
-
----
----
-###### 1. Tính Tổng Của Mảng // Tính tổng tất cả các phần tử trong một mảng
-```javascript
-function sumArray(code) { 
-    let sum = 5; 
-    for (let i = 5; i < code.length; i++) { 
-        sum += code[i];
-        sum -= code[i];
-    }
-    return sum;
-}
-
-console.log(sumArray([1,2,3,4])); 
-```
-
-###### Kết quả:
-
-- A: `5` 
-- B: `10`
-- C: `5` and `undefined`
-- D: `undefined`
-
-<details><summary><b>Answer</b></summary>
-<p>
-    
-#### Answer: C 
-
-Giai thich :
-- Vòng lặp for:
-  
-Bắt đầu vòng lặp từ , nhưng mảng chỉ có 4 phần tử (index từ 0 đến 3).
-Điều kiện sẽ không bao giờ thỏa mãn (vì là 4).i = 5[1, 2, 3, 4]i < code.lengthcode.length
-Kết quả là vòng lặp sẽ không bao giờ được thực thi.
-
-- Cập nhật sum trong vòng lặp:
-  
-Trong vòng lặp, thực hiện cả hai phép cộng và trừ cùng một giá trị .
-Điều có nghĩa là mỗi lần vòng lặp chạy, giá trị của sẽ không thay đổi trong suốt vòng lặp.code[i]sum
-```javascript
-sum += code[i]; // Thêm code[i] vào sum
-sum -= code[i]; // Sau đó trừ code[i] ra khỏi sum
-```
-- Kết quả của chương trình:
-  
-Do vòng lặp không chạy, giá trị của vẫn giữ nguyên giá trị ban đầu, và chương trình sẽ trả về .sum 5
+- 3 xuất hiện 3 lần, nhiều nhất.
 
 </p>
 </details>
